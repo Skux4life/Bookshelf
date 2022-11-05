@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,9 +22,14 @@ import com.example.bookshelf.model.Book
 
 @Composable
 fun HomeScreen(
+    booksUiState: BooksUiState,
     modifier: Modifier = Modifier
 ) {
-
+    when (booksUiState) {
+        is BooksUiState.Loading -> LoadingScreen(modifier)
+        is BooksUiState.Error -> ErrorScreen(modifier)
+        is BooksUiState.Success -> ResultScreen(result = booksUiState.book.id)
+    }
 }
 
 @Composable
@@ -47,6 +53,28 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize()
     ) {
         Text(stringResource(R.string.error))
+    }
+}
+
+@Composable
+fun ResultScreen(result: String, modifier: Modifier = Modifier) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize()
+    ) {
+        Text(result)
+    }
+}
+
+@Composable
+fun BookCard(
+    book: Book,
+    modifier: Modifier = Modifier
+) {
+    Card(
+
+    ) {
+        
     }
 }
 
