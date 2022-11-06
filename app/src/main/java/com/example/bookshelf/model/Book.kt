@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable()
 data class Book(
     val id: String,
-    val thumbnail: String
+    val volumeInfo: VolumeInfo
 )
