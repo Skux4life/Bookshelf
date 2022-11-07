@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://www.googleapis.com/books/v1/"
 private val json = Json { ignoreUnknownKeys = true }
@@ -18,11 +19,11 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface BooksApiService {
-    @GET("volumes?=Pele")
+    @GET("volumes?q=Pele")
     suspend fun getBooks(): BookResults
 
-    @GET("volumes/24yRRvkgsc8C")
-    suspend fun getBook(): Book
+    @GET("volumes/{id}")
+    suspend fun getBook(@Path("id") id: String): Book
 }
 
 object BooksApi {

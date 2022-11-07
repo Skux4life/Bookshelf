@@ -2,6 +2,7 @@
 
 package com.example.bookshelf
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -25,10 +26,11 @@ fun HomeScreen(
     booksUiState: BooksUiState,
     modifier: Modifier = Modifier
 ) {
+    Log.d("HomeScreen", booksUiState.toString())
     when (booksUiState) {
         is BooksUiState.Loading -> LoadingScreen(modifier)
         is BooksUiState.Error -> ErrorScreen(modifier)
-        is BooksUiState.Success -> ResultScreen(result = booksUiState.book.id)
+        is BooksUiState.Success -> ResultScreen(result = booksUiState.book.items[0].id)
     }
 }
 

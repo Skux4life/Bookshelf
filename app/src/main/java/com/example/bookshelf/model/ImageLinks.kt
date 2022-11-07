@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class ImageLinks(
     val smallThumbnail: String,
     val thumbnail: String,
-    val small: String,
-    val medium: String,
-    val large: String,
-    val extraLarge: String
+    val small: String? = null,
+    val medium: String? = null,
+    val large: String? = null,
+    val extraLarge: String? = null
 )
