@@ -22,7 +22,7 @@ fun BookShelfApp(modifier: Modifier = Modifier) {
                 .padding(it),
             color = MaterialTheme.colors.background
         ) {
-            val booksViewModel: BooksViewModel = viewModel()
+            val booksViewModel: BooksViewModel = viewModel(factory = BooksViewModel.Factory)
             HomeScreen(booksUiState = booksViewModel.booksUiState)
         }
     }
