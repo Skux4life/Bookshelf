@@ -11,6 +11,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class BooksViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
