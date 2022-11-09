@@ -5,8 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import com.example.bookshelf.data.BooksApi
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.bookshelf.BookshelfApplication
+import com.example.bookshelf.data.BooksRepository
 import com.example.bookshelf.model.Book
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -18,7 +23,9 @@ sealed interface BooksUiState {
     object Loading : BooksUiState
 }
 
-class BooksViewModel : ViewModel() {
+class BooksViewModel(
+    private val booksRepository: BooksRepository
+) : ViewModel() {
 
     var booksUiState: BooksUiState by mutableStateOf(BooksUiState.Loading)
         private set
@@ -30,11 +37,12 @@ class BooksViewModel : ViewModel() {
     private fun getBooks() {
         viewModelScope.launch {
             booksUiState = try {
-                val bookResult = BooksApi.retrofitService.getBooks()
+                val bookResult = booksRepository.getBooks()
                 val books = mutableListOf<Book>()
                 for (item in bookResult.items) {
-                    val book = BooksApi.retrofitService.getBook(item.id)
-                    book.volumeInfo.imageLinks.thumbnail = book.volumeInfo.imageLinks.thumbnail.replace("http", "https")
+                    val book = booksRepository.getBook(item.id)
+                    book.volumeInfo.imageLinks.thumbnail =
+                        book.volumeInfo.imageLinks.thumbnail.replace("http", "https")
                     books.add(book)
                 }
                 BooksUiState.Success(books)
@@ -48,4 +56,13 @@ class BooksViewModel : ViewModel() {
         }
     }
 
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as BookshelfApplication)
+                val booksRepository = application.container.booksRepository
+                BooksViewModel(booksRepository)
+            }
+        }
+    }
 }

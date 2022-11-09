@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.example.bookshelf.ui.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -117,7 +114,7 @@ fun BooksGridScreen(
 @Preview(showBackground = true)
 @Composable
 fun GridPreview() {
-    BookshelfTheme() {
+    BookshelfTheme {
         val mockData = List(10) { Book("$it", volumeInfo = VolumeInfo(ImageLinks(" ", " ")))}
         BooksGridScreen(books = mockData)
     }
